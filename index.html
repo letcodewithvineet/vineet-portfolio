@@ -13,6 +13,7 @@
       content="developer, portfolio, web development, projects, skills"
     />
     <meta name="theme-color" content="#0f172a" />
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -20,47 +21,9 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Montserrat:wght@600;700&display=swap"
       rel="stylesheet"
     />
+
     <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const form = document.getElementById("contactForm");
-        const statusEl = document.getElementById("form-status");
-
-        // 👉 Put your real Formspree endpoint here
-        const FORM_ENDPOINT = "https://formspree.io/f/mnnbnjlo";
-
-        if (form) {
-          form.addEventListener("submit", async (e) => {
-            e.preventDefault();
-            statusEl.textContent = "Sending…";
-
-            try {
-              const res = await fetch(FORM_ENDPOINT, {
-                method: "POST",
-                body: new FormData(form),
-                headers: { Accept: "application/json" }, // avoid redirect pages
-              });
-
-              if (res.ok) {
-                statusEl.textContent = "Thanks! I’ll get back to you soon.";
-                form.reset();
-              } else {
-                const data = await res.json().catch(() => ({}));
-                const msg =
-                  data && data.errors
-                    ? data.errors.map((err) => err.message).join(", ")
-                    : "Oops, something went wrong.";
-                statusEl.textContent = msg;
-              }
-            } catch (err) {
-              statusEl.textContent = "Network error. Please try again.";
-            }
-          });
-        }
-      });
-    </script>
-
     <script>
       tailwind.config = {
         darkMode: "class",
@@ -78,9 +41,11 @@
         },
       };
     </script>
+
     <!-- AOS -->
     <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
     <style>
       html {
         scroll-behavior: smooth;
@@ -92,9 +57,91 @@
         background-color: #0f172a;
         color: #e2e8f0;
       }
+
+      /* ===== Carousel helpers ===== */
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+
+      .rail-fade {
+        pointer-events: none;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 64px;
+      }
+      .rail-fade.left {
+        left: 0;
+        background: linear-gradient(
+          90deg,
+          rgba(15, 23, 42, 1) 0%,
+          rgba(15, 23, 42, 0) 100%
+        );
+      }
+      .rail-fade.right {
+        right: 0;
+        background: linear-gradient(
+          270deg,
+          rgba(15, 23, 42, 1) 0%,
+          rgba(15, 23, 42, 0) 100%
+        );
+      }
+      .light .rail-fade.left {
+        background: linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 1) 0%,
+          rgba(255, 255, 255, 0) 100%
+        );
+      }
+      .light .rail-fade.right {
+        background: linear-gradient(
+          270deg,
+          rgba(255, 255, 255, 1) 0%,
+          rgba(255, 255, 255, 0) 100%
+        );
+      }
     </style>
 
-    <!-- Theme + Mobile Menu Toggle (fixed) -->
+    <!-- Contact form (Formspree JSON) -->
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const form = document.getElementById("contactForm");
+        const statusEl = document.getElementById("form-status");
+        const FORM_ENDPOINT = "https://formspree.io/f/mnnbnjlo"; // <-- your endpoint
+
+        if (form) {
+          form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            statusEl.textContent = "Sending…";
+            try {
+              const res = await fetch(FORM_ENDPOINT, {
+                method: "POST",
+                body: new FormData(form),
+                headers: { Accept: "application/json" },
+              });
+              if (res.ok) {
+                statusEl.textContent = "Thanks! I’ll get back to you soon.";
+                form.reset();
+              } else {
+                const data = await res.json().catch(() => ({}));
+                statusEl.textContent =
+                  data && data.errors
+                    ? data.errors.map((err) => err.message).join(", ")
+                    : "Oops, something went wrong.";
+              }
+            } catch {
+              statusEl.textContent = "Network error. Please try again.";
+            }
+          });
+        }
+      });
+    </script>
+
+    <!-- Theme + Mobile Menu + Carousel -->
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         const body = document.body;
@@ -107,19 +154,21 @@
         const MOON = "M21 12.79A9 9 0 1111.21 3a7 7 0 109.79 9.79z";
 
         const saved = localStorage.getItem("theme");
-        const systemPrefersDark = window.matchMedia(
+        const prefersDark = window.matchMedia(
           "(prefers-color-scheme: dark)"
         ).matches;
         const shouldBeDark = saved
           ? saved === "dark"
-          : body.classList.contains("dark") || systemPrefersDark;
+          : body.classList.contains("dark") || prefersDark;
 
         body.classList.toggle("dark", shouldBeDark);
+        body.classList.toggle("light", !shouldBeDark);
         if (iconPath) iconPath.setAttribute("d", shouldBeDark ? SUN : MOON);
 
         if (btn && iconPath) {
           btn.addEventListener("click", () => {
             body.classList.toggle("dark");
+            body.classList.toggle("light");
             const isDark = body.classList.contains("dark");
             localStorage.setItem("theme", isDark ? "dark" : "light");
             iconPath.setAttribute("d", isDark ? SUN : MOON);
@@ -140,6 +189,32 @@
                 mobileMenu.classList.add("hidden")
               )
             );
+        }
+
+        // ===== CAROUSEL SCROLL =====
+        const rail = document.getElementById("photoRail");
+        const leftBtn = document.getElementById("railLeft");
+        const rightBtn = document.getElementById("railRight");
+        const scrollBy = () => Math.min(rail.clientWidth * 0.9, 600);
+
+        function updateArrows() {
+          leftBtn.classList.toggle("opacity-30", rail.scrollLeft <= 5);
+          rightBtn.classList.toggle(
+            "opacity-30",
+            Math.ceil(rail.scrollLeft + rail.clientWidth) >=
+              rail.scrollWidth - 5
+          );
+        }
+        if (rail && leftBtn && rightBtn) {
+          leftBtn.addEventListener("click", () => {
+            rail.scrollBy({ left: -scrollBy(), behavior: "smooth" });
+          });
+          rightBtn.addEventListener("click", () => {
+            rail.scrollBy({ left: scrollBy(), behavior: "smooth" });
+          });
+          rail.addEventListener("scroll", updateArrows);
+          window.addEventListener("resize", updateArrows);
+          updateArrows();
         }
 
         // AOS init
@@ -181,7 +256,7 @@
             Projects
           </button>
 
-          <!-- THEME TOGGLE BUTTON (fixed) -->
+          <!-- THEME TOGGLE -->
           <button
             id="themeToggleBtn"
             type="button"
@@ -200,7 +275,7 @@
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 stroke-width="2"
-                d="M12 3v1m0 16v1m8.66-8.66h-1M4.34 12H3m15.07 6.07l-.7-.7M6.34 6.34l-.7-.7m12.02 12.02l-.7-.7M6.34 17.66l-.7-.7M12 5a7 7 0 100 14 7 7 0 000-14z"
+                d="M12 3v1m0 16v1m8.66-8.66h-1M4.34 12H3m15.07 6.07l-.7-.7M6.34 6.34l-.7-.7M12 5a7 7 0 100 14 7 7 0 000-14z"
               />
             </svg>
           </button>
@@ -244,25 +319,135 @@
 
     <!-- Main -->
     <main id="home" class="pt-24">
+      <!-- ===== Photo Carousel (top) ===== -->
+      <section class="relative px-6 pt-6" aria-label="Photo highlights">
+        <div class="relative max-w-7xl mx-auto">
+          <div
+            id="photoRail"
+            class="no-scrollbar overflow-x-auto flex gap-4 scroll-smooth snap-x snap-mandatory pb-2"
+          >
+            <!-- Each image has a fixed card size + rounded corners, plus a fallback -->
+            <img
+              class="h-40 w-[280px] object-cover rounded-xl snap-start"
+              src="https://images.unsplash.com/photo-1520975916090-3105956dac38?auto=format&fit=crop&w=1200&q=80"
+              alt="Hiking"
+              onerror="this.onerror=null;this.src='https://placehold.co/560x320/1f2937/a8b1c7?text=Photo';"
+            />
+            <img
+              class="h-40 w-[280px] object-cover rounded-xl snap-start"
+              src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=80"
+              alt="Team collaboration"
+              onerror="this.onerror=null;this.src='https://placehold.co/560x320/1f2937/a8b1c7?text=Photo';"
+            />
+            <img
+              class="h-40 w-[280px] object-cover rounded-xl snap-start"
+              src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80"
+              alt="Conference"
+              onerror="this.onerror=null;this.src='https://placehold.co/560x320/1f2937/a8b1c7?text=Photo';"
+            />
+            <img
+              class="h-40 w-[280px] object-cover rounded-xl snap-start"
+              src="https://images.unsplash.com/photo-1573167243872-43c6433b9d40?auto=format&fit=crop&w=1200&q=80"
+              alt="Workshop"
+              onerror="this.onerror=null;this.src='https://placehold.co/560x320/1f2937/a8b1c7?text=Photo';"
+            />
+            <img
+              class="h-40 w-[280px] object-cover rounded-xl snap-start"
+              src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1200&q=80"
+              alt="Meetup"
+              onerror="this.onerror=null;this.src='https://placehold.co/560x320/1f2937/a8b1c7?text=Photo';"
+            />
+            <img
+              class="h-40 w-[280px] object-cover rounded-xl snap-start"
+              src="https://images.unsplash.com/photo-1529336953121-ad5a0d43d0d2?auto=format&fit=crop&w=1200&q=80"
+              alt="Office"
+              onerror="this.onerror=null;this.src='https://placehold.co/560x320/1f2937/a8b1c7?text=Photo';"
+            />
+          </div>
+
+          <!-- Fades -->
+          <div class="rail-fade left hidden md:block"></div>
+          <div class="rail-fade right hidden md:block"></div>
+
+          <!-- Arrows -->
+          <button
+            id="railLeft"
+            class="hidden md:flex absolute -left-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 hover:bg-black/70 backdrop-blur text-white shadow"
+            aria-label="Scroll left"
+          >
+            ‹
+          </button>
+          <button
+            id="railRight"
+            class="hidden md:flex absolute -right-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 hover:bg-black/70 backdrop-blur text-white shadow"
+            aria-label="Scroll right"
+          >
+            ›
+          </button>
+        </div>
+      </section>
+
       <!-- Hero -->
       <section
-        class="min-h-[80vh] flex flex-col items-center justify-center text-center px-6 relative overflow-hidden"
+        class="flex flex-col items-center justify-center text-center px-6 relative overflow-hidden py-12"
         data-aos="fade-up"
       >
-        <img
-          src="assets/hero.png"
-          alt="Abstract dark gradient background"
-          class="absolute inset-0 w-full h-full object-cover opacity-60"
-          loading="lazy"
-        />
+        <!-- Optional gradient background image -->
+        <!-- <img src="assets/hero.png" alt="" class="absolute inset-0 w-full h-full object-cover opacity-60" loading="lazy" /> -->
+
         <div class="relative z-10 max-w-3xl">
+          <!-- Profile avatar -->
+          <div
+            class="mx-auto mb-6 w-40 h-40 md:w-48 md:h-48 rounded-full p-1 bg-gradient-to-tr from-secondary to-primary shadow-lg transform translate-y-5 scale-110"
+          >
+            <img
+              src="assets/profile.png"
+              alt="Vineet Kumar Pandey"
+              class="w-full h-full object-cover rounded-full border-4 border-slate-900 dark:border-slate-900"
+            />
+          </div>
+
           <h1 class="text-5xl md:text-6xl font-heading mb-4">
-            <span class="inline-block">👋</span> Hi, I’m Vineet
+            <span
+              class="inline-block"
+              style="animation: wave 2s infinite; transform-origin: 70% 70%"
+            >
+              👋
+            </span>
+            Hi, I'm Vineet
           </h1>
+          <style>
+            @keyframes wave {
+              0% {
+                transform: rotate(0deg);
+              }
+              10% {
+                transform: rotate(14deg);
+              }
+              20% {
+                transform: rotate(-8deg);
+              }
+              30% {
+                transform: rotate(14deg);
+              }
+              40% {
+                transform: rotate(-4deg);
+              }
+              50% {
+                transform: rotate(10deg);
+              }
+              60% {
+                transform: rotate(0deg);
+              }
+              100% {
+                transform: rotate(0deg);
+              }
+            }
+          </style>
           <p class="text-lg md:text-xl text-slate-300 max-w-xl mx-auto mb-8">
-            I'm a Software Development Engineer in Test (SDET), QA Automation
-            Engineer and Developer who designs and builds end-to-end testing
-            frameworks to ensure software quality and reliability.
+            I'm a Software Development Engineer in Test (SDET) and Developer who
+            designs and builds end-to-end testing frameworks to ensure software
+            quality and reliability.
           </p>
           <a
             href="#projects"
@@ -484,12 +669,136 @@
       </section>
 
       <!-- Passions -->
+      <!-- Passions -->
       <section id="passions" class="py-20 px-6 bg-black/30" data-aos="fade-up">
-        <div class="max-w-4xl mx-auto">
-          <h2 class="text-4xl font-heading mb-6">Passions</h2>
-          <p class="text-slate-400 leading-relaxed text-lg">
-            Continuous learning is at the heart of my career…
-          </p>
+        <div class="max-w-6xl mx-auto">
+          <h2 class="text-4xl font-heading mb-6 text-center">Passions</h2>
+
+          <!-- Filters -->
+          <div class="flex flex-wrap justify-center gap-3 mb-8">
+            <button
+              class="passion-filter px-4 py-2 rounded-lg bg-gray-800 text-slate-200 font-semibold"
+              data-tag="all"
+            >
+              All
+            </button>
+            <button
+              class="passion-filter px-4 py-2 rounded-lg bg-gray-800 text-slate-200 font-semibold"
+              data-tag="weightlifting"
+            >
+              Weightlifting
+            </button>
+            <button
+              class="passion-filter px-4 py-2 rounded-lg bg-gray-800 text-slate-200 font-semibold"
+              data-tag="reading"
+            >
+              Reading
+            </button>
+            <button
+              class="passion-filter px-4 py-2 rounded-lg bg-gray-800 text-slate-200 font-semibold"
+              data-tag="writing"
+            >
+              Writing
+            </button>
+            <button
+              class="passion-filter px-4 py-2 rounded-lg bg-gray-800 text-slate-200 font-semibold"
+              data-tag="fitness"
+            >
+              Fitness
+            </button>
+          </div>
+
+          <!-- 3-card gallery -->
+          <div
+            id="passionGrid"
+            class="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+          >
+            <!-- Card 1: Weightlifting clip -->
+            <article
+              class="passion-card rounded-2xl overflow-hidden bg-gray-900 border border-gray-800"
+              data-tags="weightlifting fitness"
+            >
+              <div class="relative aspect-[9/16] md:aspect-[4/5]">
+                <video
+                  controls
+                  muted
+                  playsinline
+                  preload="metadata"
+                  class="absolute inset-0 w-full h-full object-cover"
+                >
+                  <source src="assets/gym2.mp4" type="video/mp4" />
+                </video>
+              </div>
+              <div class="p-4">
+                <h3 class="text-lg font-semibold">Gym Session</h3>
+                <p class="text-slate-400 text-sm">
+                  Cardio and strength training.
+                </p>
+              </div>
+            </article>
+
+            <!-- Card 2: Reading (image placeholder; replace with your clip) -->
+            <article
+              class="passion-card rounded-2xl overflow-hidden bg-gray-900 border border-gray-800"
+              data-tags="reading"
+            >
+              <div class="relative aspect-[9/16] md:aspect-[4/5]">
+                <img
+                  class="absolute inset-0 w-full h-full object-cover"
+                  alt="Reading"
+                  src="https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1200&q=80"
+                  onerror="this.onerror=null;this.src='https://placehold.co/600x900/1f2937/a8b1c7?text=Reading';"
+                />
+              </div>
+              <div class="p-4">
+                <h3 class="text-lg font-semibold">Reading</h3>
+                <p class="text-slate-400 text-sm">
+                  Non-fiction, testing strategies and system design.
+                </p>
+              </div>
+            </article>
+
+            <!-- Card 3: Writing (image placeholder; replace with your clip) -->
+            <article
+              class="passion-card rounded-2xl overflow-hidden bg-gray-900 border border-gray-800"
+              data-tags="writing"
+            >
+              <div class="relative aspect-[9/16] md:aspect-[4/5]">
+                <img
+                  class="absolute inset-0 w-full h-full object-cover"
+                  alt="Writing"
+                  src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=1200&q=80"
+                  onerror="this.onerror=null;this.src='https://placehold.co/600x900/1f2937/a8b1c7?text=Writing';"
+                />
+              </div>
+              <div class="p-4">
+                <h3 class="text-lg font-semibold">Writing</h3>
+                <p class="text-slate-400 text-sm">
+                  Notes and blog posts on QA automation & SDET craft.
+                </p>
+              </div>
+            </article>
+
+            <!-- Card 4: Gym Session -->
+            <article
+              class="passion-card rounded-2xl overflow-hidden bg-gray-900 border border-gray-800"
+              data-tags="gym fitness"
+            >
+              <div class="relative aspect-[9/16] md:aspect-[4/5]">
+                <img
+                  class="absolute inset-0 w-full h-full object-cover"
+                  src="assets/gym.jpg"
+                  alt="Gym Session"
+                />
+              </div>
+              <div class="p-4">
+                <h3 class="text-lg font-semibold">Gym Session</h3>
+                <p class="text-slate-400 text-sm">
+                  Cardio and strength training.
+                </p>
+              </div>
+            </article>
+          </div>
         </div>
       </section>
 
@@ -511,11 +820,10 @@
                 id="name"
                 name="name"
                 required
-                class="w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 placeholder-gray-500 focus:outline-none focus:border-primary"
+                class="w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 placeholder-gray-500 text-white focus:outline-none focus:border-primary"
                 placeholder="Your name"
               />
             </div>
-
             <div>
               <label for="email" class="block mb-2 text-sm font-medium"
                 >Email</label
@@ -525,11 +833,35 @@
                 id="email"
                 name="email"
                 required
-                class="w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 placeholder-gray-500 focus:outline-none focus:border-primary"
+                class="w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 placeholder-gray-500 text-white focus:outline-none focus:border-primary"
                 placeholder="you@example.com"
               />
             </div>
-
+            <div>
+              <label for="phone" class="block mb-2 text-sm font-medium"
+                >Mobile/WhatsApp Number</label
+              >
+              <div class="flex gap-2">
+                <input
+                  type="text"
+                  id="countryCode"
+                  name="countryCode"
+                  required
+                  pattern="^\+\d{1,4}$"
+                  class="w-20 px-4 py-2 rounded-md bg-gray-800 border border-gray-700 placeholder-gray-500 text-white focus:outline-none focus:border-primary"
+                  placeholder="+91"
+                />
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  required
+                  pattern="[0-9]{10}"
+                  class="flex-1 px-4 py-2 rounded-md bg-gray-800 border border-gray-700 placeholder-gray-500 text-white focus:outline-none focus:border-primary"
+                  placeholder="10 digit mobile number"
+                />
+              </div>
+            </div>
             <div>
               <label for="message" class="block mb-2 text-sm font-medium"
                 >Message</label
@@ -539,12 +871,10 @@
                 name="message"
                 rows="5"
                 required
-                class="w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 placeholder-gray-500 focus:outline-none focus:border-primary"
+                class="w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 placeholder-gray-500 text-white focus:outline-none focus:border-primary"
                 placeholder="Tell me how I can help..."
               ></textarea>
             </div>
-
-            <!-- optional: subject line + honeypot -->
             <input
               type="hidden"
               name="_subject"
@@ -557,14 +887,12 @@
               tabindex="-1"
               autocomplete="off"
             />
-
             <button
               type="submit"
               class="px-6 py-3 bg-primary text-white rounded-md hover:bg-primary/90 transition-colors"
             >
               Send Message
             </button>
-
             <p id="form-status" class="text-sm mt-2 text-slate-400"></p>
           </form>
 
@@ -590,10 +918,7 @@
     </main>
 
     <footer class="py-6 text-center text-slate-500">
-      <p>© 2025 Vineet Kumar Pandey. Built with ❤️ using Tailwind CSS.</p>
+      <p>© 2025 Made with ❤️ by Vineet.</p>
     </footer>
-
-    <!-- If you also have assets/main.js, you can keep it; this page already includes minimal JS above. -->
-    <!-- <script src="assets/main.js"></script> -->
   </body>
 </html>
