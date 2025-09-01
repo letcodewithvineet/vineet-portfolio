@@ -58,6 +58,40 @@
         color: #e2e8f0;
       }
 
+      /* Momentum scrolling on iOS + remove scrollbars */
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      /* Use new viewport units so 100vh on mobile doesn't jump behind the address bar */
+      .svh-min {
+        min-height: 70svh;
+      } /* small devices */
+      .svh-hero {
+        min-height: 82svh;
+      } /* hero section */
+
+      /* Respect notches (Dynamic Island, Android cutouts) for header/edges */
+      .safe-top {
+        padding-top: max(env(safe-area-inset-top), 0px);
+      }
+      .safe-left {
+        padding-left: max(env(safe-area-inset-left), 0px);
+      }
+      .safe-right {
+        padding-right: max(env(safe-area-inset-right), 0px);
+      }
+      .safe-bot {
+        padding-bottom: max(env(safe-area-inset-bottom), 0px);
+      }
+
+      /* Rail fades adapt to theme (you already had these) */
+
       /* ===== Carousel helpers ===== */
       .no-scrollbar::-webkit-scrollbar {
         display: none;
@@ -228,7 +262,7 @@
   <body class="dark relative">
     <!-- Header -->
     <header
-      class="fixed top-0 inset-x-0 z-50 backdrop-blur-sm bg-black/30 dark:bg-black/40"
+      class="fixed top-0 inset-x-0 z-50 backdrop-blur-sm bg-black/30 dark:bg-black/40 safe-top"
     >
       <div
         class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4"
@@ -307,18 +341,28 @@
       <!-- Mobile nav -->
       <div
         id="mobileMenu"
-        class="hidden md:hidden flex flex-col space-y-2 px-6 pb-6 bg-black/80"
+        class="hidden md:hidden flex flex-col space-y-1 px-6 pb-6 bg-black/90 text-slate-200"
       >
-        <a href="#about" class="py-2 hover:text-primary">About</a>
-        <a href="#skills" class="py-2 hover:text-primary">Skills</a>
-        <a href="#projects" class="py-2 hover:text-primary">Projects</a>
-        <a href="#passions" class="py-2 hover:text-primary">Passions</a>
-        <a href="#contact" class="py-2 hover:text-primary">Contact</a>
+        <a href="#about" class="py-3 text-slate-200 hover:text-primary"
+          >About</a
+        >
+        <a href="#skills" class="py-3 text-slate-200 hover:text-primary"
+          >Skills</a
+        >
+        <a href="#projects" class="py-3 text-slate-200 hover:text-primary"
+          >Projects</a
+        >
+        <a href="#passions" class="py-3 text-slate-200 hover:text-primary"
+          >Passions</a
+        >
+        <a href="#contact" class="py-3 text-slate-200 hover:text-primary"
+          >Contact</a
+        >
       </div>
     </header>
 
     <!-- Main -->
-    <main id="home" class="pt-24">
+    <main id="home" class="pt-24 sm:pt-28 safe-top">
       <!-- ===== Photo Carousel (top) ===== -->
       <section class="relative px-6 pt-6" aria-label="Photo highlights">
         <div class="relative max-w-7xl mx-auto">
@@ -328,37 +372,37 @@
           >
             <!-- Each image has a fixed card size + rounded corners, plus a fallback -->
             <img
-              class="h-40 w-[280px] object-cover rounded-xl snap-start"
+              class="h-32 w-[220px] sm:h-36 sm:w-[260px] md:h-40 md:w-[280px] object-cover rounded-xl snap-start"
               src="https://images.unsplash.com/photo-1520975916090-3105956dac38?auto=format&fit=crop&w=1200&q=80"
               alt="Hiking"
               onerror="this.onerror=null;this.src='https://placehold.co/560x320/1f2937/a8b1c7?text=Photo';"
             />
             <img
-              class="h-40 w-[280px] object-cover rounded-xl snap-start"
+              class="h-32 w-[220px] sm:h-36 sm:w-[260px] md:h-40 md:w-[280px] object-cover rounded-xl snap-start"
               src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=80"
               alt="Team collaboration"
               onerror="this.onerror=null;this.src='https://placehold.co/560x320/1f2937/a8b1c7?text=Photo';"
             />
             <img
-              class="h-40 w-[280px] object-cover rounded-xl snap-start"
+              class="h-32 w-[220px] sm:h-36 sm:w-[260px] md:h-40 md:w-[280px] object-cover rounded-xl snap-start"
               src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80"
               alt="Conference"
               onerror="this.onerror=null;this.src='https://placehold.co/560x320/1f2937/a8b1c7?text=Photo';"
             />
             <img
-              class="h-40 w-[280px] object-cover rounded-xl snap-start"
+              class="h-32 w-[220px] sm:h-36 sm:w-[260px] md:h-40 md:w-[280px] object-cover rounded-xl snap-start"
               src="https://images.unsplash.com/photo-1573167243872-43c6433b9d40?auto=format&fit=crop&w=1200&q=80"
               alt="Workshop"
               onerror="this.onerror=null;this.src='https://placehold.co/560x320/1f2937/a8b1c7?text=Photo';"
             />
             <img
-              class="h-40 w-[280px] object-cover rounded-xl snap-start"
+              class="h-32 w-[220px] sm:h-36 sm:w-[260px] md:h-40 md:w-[280px] object-cover rounded-xl snap-start"
               src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1200&q=80"
               alt="Meetup"
               onerror="this.onerror=null;this.src='https://placehold.co/560x320/1f2937/a8b1c7?text=Photo';"
             />
             <img
-              class="h-40 w-[280px] object-cover rounded-xl snap-start"
+              class="h-32 w-[220px] sm:h-36 sm:w-[260px] md:h-40 md:w-[280px] object-cover rounded-xl snap-start"
               src="https://images.unsplash.com/photo-1529336953121-ad5a0d43d0d2?auto=format&fit=crop&w=1200&q=80"
               alt="Office"
               onerror="this.onerror=null;this.src='https://placehold.co/560x320/1f2937/a8b1c7?text=Photo';"
@@ -389,7 +433,7 @@
 
       <!-- Hero -->
       <section
-        class="flex flex-col items-center justify-center text-center px-6 relative overflow-hidden py-12"
+        class="flex flex-col items-center justify-center text-center px-4 sm:px-6 relative overflow-hidden py-10 sm:py-12"
         data-aos="fade-up"
       >
         <!-- Optional gradient background image -->
@@ -398,7 +442,7 @@
         <div class="relative z-10 max-w-3xl">
           <!-- Profile avatar -->
           <div
-            class="mx-auto mb-6 w-40 h-40 md:w-48 md:h-48 rounded-full p-1 bg-gradient-to-tr from-secondary to-primary shadow-lg transform translate-y-5 scale-110"
+            class="mx-auto mb-12 w-40 h-40 md:w-48 md:h-48 rounded-full p-1 bg-gradient-to-tr from-secondary to-primary shadow-lg transform translate-y-5 scale-110"
           >
             <img
               src="assets/profile.png"
@@ -407,7 +451,7 @@
             />
           </div>
 
-          <h1 class="text-5xl md:text-6xl font-heading mb-4">
+          <h1 class="text-5xl md:text-6xl font-heading mb-4 whitespace-nowrap">
             <span
               class="inline-block"
               style="animation: wave 2s infinite; transform-origin: 70% 70%"
@@ -536,7 +580,9 @@
       <section id="projects" class="py-20 px-6" data-aos="fade-up">
         <div class="max-w-6xl mx-auto">
           <h2 class="text-4xl font-heading mb-6">Projects</h2>
-          <div class="grid gap-10 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+          <div
+            class="grid gap-6 sm:gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+          >
             <!-- card 1 -->
             <div
               class="bg-gray-800 rounded-xl overflow-hidden shadow-lg flex flex-col"
@@ -546,7 +592,9 @@
                 alt="Coldwell Banker automation project screenshot"
                 class="w-full h-40 object-cover"
                 loading="lazy"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               />
+
               <div class="p-6 flex-1 flex flex-col">
                 <h3 class="text-2xl font-heading mb-2">Coldwell&nbsp;Banker</h3>
                 <p class="text-slate-400 flex-1">
@@ -711,7 +759,7 @@
           <!-- 3-card gallery -->
           <div
             id="passionGrid"
-            class="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+            class="grid gap-6 sm:gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
           >
             <!-- Card 1: Weightlifting clip -->
             <article
@@ -724,6 +772,7 @@
                   muted
                   playsinline
                   preload="metadata"
+                  poster="assets/gym-poster.jpg"
                   class="absolute inset-0 w-full h-full object-cover"
                 >
                   <source src="assets/gym2.mp4" type="video/mp4" />
@@ -819,6 +868,7 @@
                 type="text"
                 id="name"
                 name="name"
+                autocomplete="name"
                 required
                 class="w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 placeholder-gray-500 text-white focus:outline-none focus:border-primary"
                 placeholder="Your name"
@@ -832,6 +882,8 @@
                 type="email"
                 id="email"
                 name="email"
+                autocomplete="email"
+                inputmode="email"
                 required
                 class="w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 placeholder-gray-500 text-white focus:outline-none focus:border-primary"
                 placeholder="you@example.com"
@@ -846,6 +898,8 @@
                   type="text"
                   id="countryCode"
                   name="countryCode"
+                  inputmode="tel"
+                  autocomplete="tel-country-code"
                   required
                   pattern="^\+\d{1,4}$"
                   class="w-20 px-4 py-2 rounded-md bg-gray-800 border border-gray-700 placeholder-gray-500 text-white focus:outline-none focus:border-primary"
@@ -855,6 +909,8 @@
                   type="tel"
                   id="phone"
                   name="phone"
+                  inputmode="numeric"
+                  autocomplete="tel-national"
                   required
                   pattern="[0-9]{10}"
                   class="flex-1 px-4 py-2 rounded-md bg-gray-800 border border-gray-700 placeholder-gray-500 text-white focus:outline-none focus:border-primary"

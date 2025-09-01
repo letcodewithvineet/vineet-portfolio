@@ -93,6 +93,48 @@ document.addEventListener("DOMContentLoaded", () => {
       rail.scrollBy({ left: step(), behavior: "smooth" })
     );
 
+    /* =========================
+   TOUCH SWIPE for carousel (iOS/Android)
+========================== */
+    if (rail) {
+      let startX = 0,
+        lastX = 0,
+        isTouching = false;
+
+      rail.addEventListener(
+        "touchstart",
+        (e) => {
+          if (!e.touches || !e.touches.length) return;
+          isTouching = true;
+          startX = lastX = e.touches[0].clientX;
+        },
+        { passive: true }
+      );
+
+      rail.addEventListener(
+        "touchmove",
+        (e) => {
+          if (!isTouching || !e.touches || !e.touches.length) return;
+          const x = e.touches[0].clientX;
+          const dx = lastX - x;
+          lastX = x;
+          rail.scrollLeft += dx; // smooth follow-the-finger
+        },
+        { passive: true }
+      );
+
+      rail.addEventListener("touchend", () => {
+        isTouching = false;
+        // snap a bit by nudging ~half a card if swipe was big
+        const threshold = 40;
+        const delta = startX - lastX;
+        if (Math.abs(delta) > threshold) {
+          const step = Math.min(rail.clientWidth * 0.9, 600);
+          rail.scrollBy({ left: delta > 0 ? step : -step, behavior: "smooth" });
+        }
+      });
+    }
+
     // allow vertical mouse wheel to scroll horizontally
     rail.addEventListener(
       "wheel",
