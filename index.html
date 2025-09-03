@@ -610,129 +610,284 @@
         </div>
       </section>
 
-      <!-- Projects -->
-      <section id="projects" class="py-20 px-6 bg-black/30" data-aos="fade-up">
+      <!-- Projects (scrollable row with company logos) -->
+      <section id="projects" class="py-20 px-6" data-aos="fade-up">
         <div class="max-w-7xl mx-auto">
-          <h2 class="text-4xl font-heading mb-6 text-center">Projects</h2>
+          <h2 class="text-4xl font-heading mb-6">Projects</h2>
 
-          <!-- Scrollable row -->
+          <!-- rail -->
           <div
-            id="projectsRail"
-            class="no-scrollbar flex gap-6 overflow-x-auto snap-x snap-mandatory pb-4"
+            class="no-scrollbar overflow-x-auto flex gap-6 scroll-smooth snap-x snap-mandatory pb-2"
+            aria-label="Projects"
           >
-            <!-- Project 1: Coldwell Banker -->
-            <a
-              href="https://www.coldwellbanker.com/"
-              target="_blank"
-              rel="noopener"
-              class="snap-start shrink-0 w-[300px] md:w-[340px] lg:w-[360px] bg-gray-800 rounded-xl overflow-hidden shadow-lg flex flex-col hover:scale-[1.02] transition-transform"
+            <!-- Coldwell Banker -->
+            <article
+              class="snap-start w-[320px] sm:w-[360px] shrink-0 bg-gray-800/60 dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg border border-gray-700"
             >
-              <img
-                src="assets/project1.png"
-                alt="Coldwell Banker project"
-                class="w-full h-40 object-cover"
-              />
-              <div class="p-4 flex-1 flex flex-col">
-                <h3 class="text-xl font-heading mb-2">Coldwell&nbsp;Banker</h3>
-                <p class="text-slate-400 text-sm flex-1">
-                  Cypress-based UI &amp; API automation, enhancing test coverage
-                  by 80%.
-                </p>
-                <span class="text-primary mt-3">View Project →</span>
+              <div
+                class="h-40 bg-slate-900/30 flex items-center justify-center"
+              >
+                <img
+                  src="https://logo.clearbit.com/coldwellbanker.com"
+                  alt="Coldwell Banker logo"
+                  class="h-14 object-contain"
+                  loading="lazy"
+                  onerror="this.onerror=null;this.src='https://placehold.co/280x80/0f172a/94a3b8?text=Coldwell+Banker';"
+                />
               </div>
-            </a>
-
-            <!-- Project 2: Exclusive Look -->
-            <a
-              href="https://exclusivelook.com/"
-              target="_blank"
-              rel="noopener"
-              class="snap-start shrink-0 w-[300px] md:w-[340px] lg:w-[360px] bg-gray-800 rounded-xl overflow-hidden shadow-lg flex flex-col hover:scale-[1.02] transition-transform"
-            >
-              <img
-                src="assets/project2.png"
-                alt="Exclusive Look project"
-                class="w-full h-40 object-cover"
-              />
-              <div class="p-4 flex-1 flex flex-col">
-                <h3 class="text-xl font-heading mb-2">Exclusive&nbsp;Look</h3>
-                <p class="text-slate-400 text-sm flex-1">
-                  Automated E2E testing with Cypress, reducing time by 30%.
+              <div class="p-6 flex-1 flex flex-col">
+                <h3 class="text-2xl font-heading mb-2">Coldwell&nbsp;Banker</h3>
+                <p class="text-slate-700 dark:text-slate-300 flex-1">
+                  Built robust Cypress UI & API automation, increasing coverage
+                  and stability across their real-estate platform.
                 </p>
-                <span class="text-primary mt-3">View Project →</span>
+                <div class="flex flex-wrap gap-2 my-4">
+                  <span
+                    class="bg-gray-700/70 text-xs px-2 py-1 rounded-full text-slate-200"
+                    >Next.js</span
+                  >
+                  <span
+                    class="bg-gray-700/70 text-xs px-2 py-1 rounded-full text-slate-200"
+                    >React</span
+                  >
+                  <span
+                    class="bg-gray-700/70 text-xs px-2 py-1 rounded-full text-slate-200"
+                    >Django</span
+                  >
+                  <span
+                    class="bg-gray-700/70 text-xs px-2 py-1 rounded-full text-slate-200"
+                    >REST API</span
+                  >
+                  <span
+                    class="bg-gray-700/70 text-xs px-2 py-1 rounded-full text-slate-200"
+                    >Datadog</span
+                  >
+                </div>
+                <a
+                  href="https://www.coldwellbanker.com/"
+                  target="_blank"
+                  rel="noopener"
+                  class="text-primary hover:underline mt-auto"
+                >
+                  Visit site →
+                </a>
               </div>
-            </a>
+            </article>
 
-            <!-- Project 3: Coldwell Banker Homes -->
-            <a
-              href="https://www.coldwellbankerhomes.com/"
-              target="_blank"
-              rel="noopener"
-              class="snap-start shrink-0 w-[300px] md:w-[340px] lg:w-[360px] bg-gray-800 rounded-xl overflow-hidden shadow-lg flex flex-col hover:scale-[1.02] transition-transform"
+            <!-- Coldwell Banker Homes -->
+            <article
+              class="snap-start w-[320px] sm:w-[360px] shrink-0 bg-gray-800/60 dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg border border-gray-700"
             >
-              <img
-                src="assets/project3.png"
-                alt="Coldwell Banker Homes project"
-                class="w-full h-40 object-cover"
-              />
-              <div class="p-4 flex-1 flex flex-col">
-                <h3 class="text-xl font-heading mb-2">
+              <div
+                class="h-40 bg-slate-900/30 flex items-center justify-center"
+              >
+                <img
+                  src="https://logo.clearbit.com/coldwellbankerhomes.com"
+                  alt="Coldwell Banker Homes logo"
+                  class="h-14 object-contain"
+                  loading="lazy"
+                  onerror="this.onerror=null;this.src='https://placehold.co/280x80/0f172a/94a3b8?text=CB+Homes';"
+                />
+              </div>
+              <div class="p-6 flex-1 flex flex-col">
+                <h3 class="text-2xl font-heading mb-2">
                   Coldwell&nbsp;Banker&nbsp;Homes
                 </h3>
-                <p class="text-slate-400 text-sm flex-1">
-                  Improved UI &amp; API test coverage by 40% with Cypress.
+                <p class="text-slate-700 dark:text-slate-300 flex-1">
+                  Automation for listing flows and search experiences; added API
+                  tests and synthetic monitoring.
                 </p>
-                <span class="text-primary mt-3">View Project →</span>
+                <div class="flex flex-wrap gap-2 my-4">
+                  <span
+                    class="bg-gray-700/70 text-xs px-2 py-1 rounded-full text-slate-200"
+                    >.NET</span
+                  >
+                  <span
+                    class="bg-gray-700/70 text-xs px-2 py-1 rounded-full text-slate-200"
+                    >JavaScript</span
+                  >
+                  <span
+                    class="bg-gray-700/70 text-xs px-2 py-1 rounded-full text-slate-200"
+                    >SQL</span
+                  >
+                  <span
+                    class="bg-gray-700/70 text-xs px-2 py-1 rounded-full text-slate-200"
+                    >REST API</span
+                  >
+                  <span
+                    class="bg-gray-700/70 text-xs px-2 py-1 rounded-full text-slate-200"
+                    >Cypress</span
+                  >
+                </div>
+                <a
+                  href="https://www.coldwellbankerhomes.com/"
+                  target="_blank"
+                  rel="noopener"
+                  class="text-primary hover:underline mt-auto"
+                >
+                  Visit site →
+                </a>
               </div>
-            </a>
+            </article>
 
-            <!-- Project 4: Better Homes and Gardens -->
-            <a
-              href="https://www.bhgre.com/"
-              target="_blank"
-              rel="noopener"
-              class="snap-start shrink-0 w-[300px] md:w-[340px] lg:w-[360px] bg-gray-800 rounded-xl overflow-hidden shadow-lg flex flex-col hover:scale-[1.02] transition-transform"
+            <!-- Exclusive Look -->
+            <article
+              class="snap-start w-[320px] sm:w-[360px] shrink-0 bg-gray-800/60 dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg border border-gray-700"
             >
-              <img
-                src="assets/project2.png"
-                alt="Better Homes and Gardens project"
-                class="w-full h-40 object-cover"
-              />
-              <div class="p-4 flex-1 flex flex-col">
-                <h3 class="text-xl font-heading mb-2">
-                  Better Homes &amp; Gardens
-                </h3>
-                <p class="text-slate-400 text-sm flex-1">
-                  Built scalable automation frameworks for enterprise real
-                  estate apps.
-                </p>
-                <span class="text-primary mt-3">View Project →</span>
+              <div
+                class="h-40 bg-slate-900/30 flex items-center justify-center"
+              >
+                <img
+                  src="https://logo.clearbit.com/exclusivelook.com"
+                  alt="Exclusive Look logo"
+                  class="h-14 object-contain"
+                  loading="lazy"
+                  onerror="this.onerror=null;this.src='https://placehold.co/280x80/0f172a/94a3b8?text=Exclusive+Look';"
+                />
               </div>
-            </a>
+              <div class="p-6 flex-1 flex flex-col">
+                <h3 class="text-2xl font-heading mb-2">Exclusive&nbsp;Look</h3>
+                <p class="text-slate-700 dark:text-slate-300 flex-1">
+                  End-to-end Cypress suite that cut manual testing time ~30% and
+                  improved release confidence.
+                </p>
+                <div class="flex flex-wrap gap-2 my-4">
+                  <span
+                    class="bg-gray-700/70 text-xs px-2 py-1 rounded-full text-slate-200"
+                    >Angular</span
+                  >
+                  <span
+                    class="bg-gray-700/70 text-xs px-2 py-1 rounded-full text-slate-200"
+                    >Django</span
+                  >
+                  <span
+                    class="bg-gray-700/70 text-xs px-2 py-1 rounded-full text-slate-200"
+                    >GraphQL</span
+                  >
+                  <span
+                    class="bg-gray-700/70 text-xs px-2 py-1 rounded-full text-slate-200"
+                    >Cypress</span
+                  >
+                </div>
+                <a
+                  href="https://exclusivelook.com/"
+                  target="_blank"
+                  rel="noopener"
+                  class="text-primary hover:underline mt-auto"
+                >
+                  Visit site →
+                </a>
+              </div>
+            </article>
 
-            <!-- Project 5: Realtor.com® | Homes for Sale, Apartments & Houses for Rent -->
-            <a
-              href="https://www.realtor.com/"
-              target="_blank"
-              rel="noopener"
-              class="snap-start shrink-0 w-[300px] md:w-[340px] lg:w-[360px] bg-gray-800 rounded-xl overflow-hidden shadow-lg flex flex-col hover:scale-[1.02] transition-transform"
+            <!-- Better Homes & Gardens Real Estate -->
+            <article
+              class="snap-start w-[320px] sm:w-[360px] shrink-0 bg-gray-800/60 dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg border border-gray-700"
             >
-              <img
-                src="assets/project1.png"
-                alt="Realtor.com® | Homes for Sale, Apartments & Houses for Rent"
-                class="w-full h-40 object-cover"
-              />
-              <div class="p-4 flex-1 flex flex-col">
-                <h3 class="text-xl font-heading mb-2">
-                  Realtor.com® | Homes for Sale, Apartments & Houses for Rent
-                </h3>
-                <p class="text-slate-400 text-sm flex-1">
-                  Built scalable automation frameworks for enterprise real
-                  estate apps.
-                </p>
-                <span class="text-primary mt-3">View Project →</span>
+              <div
+                class="h-40 bg-slate-900/30 flex items-center justify-center"
+              >
+                <img
+                  src="https://logo.clearbit.com/bhgre.com"
+                  alt="Better Homes and Gardens Real Estate logo"
+                  class="h-14 object-contain"
+                  loading="lazy"
+                  onerror="this.onerror=null;this.src='https://placehold.co/280x80/0f172a/94a3b8?text=BHGRE';"
+                />
               </div>
-            </a>
+              <div class="p-6 flex-1 flex flex-col">
+                <h3 class="text-2xl font-heading mb-2">
+                  Better Homes &amp; Gardens Real Estate
+                </h3>
+                <p class="text-slate-700 dark:text-slate-300 flex-1">
+                  Added smoke/regression coverage and API checks for lead &
+                  listing flows; integrated CI reporting.
+                </p>
+                <div class="flex flex-wrap gap-2 my-4">
+                  <span
+                    class="bg-gray-700/70 text-xs px-2 py-1 rounded-full text-slate-200"
+                    >React</span
+                  >
+                  <span
+                    class="bg-gray-700/70 text-xs px-2 py-1 rounded-full text-slate-200"
+                    >Node</span
+                  >
+                  <span
+                    class="bg-gray-700/70 text-xs px-2 py-1 rounded-full text-slate-200"
+                    >Cypress</span
+                  >
+                  <span
+                    class="bg-gray-700/70 text-xs px-2 py-1 rounded-full text-slate-200"
+                    >REST API</span
+                  >
+                </div>
+                <a
+                  href="https://www.bhgre.com/"
+                  target="_blank"
+                  rel="noopener"
+                  class="text-primary hover:underline mt-auto"
+                >
+                  Visit site →
+                </a>
+              </div>
+            </article>
+
+            <!-- Project 5: Realtor.com -->
+            <article
+              class="snap-start w-[320px] sm:w-[360px] shrink-0 bg-gray-800/60 dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg border border-gray-700 flex flex-col"
+            >
+              <!-- Logo header -->
+              <div
+                class="h-40 bg-slate-900/30 flex items-center justify-center"
+              >
+                <img
+                  src="https://logo.clearbit.com/realtor.com"
+                  alt="Realtor.com logo"
+                  class="h-14 object-contain"
+                  loading="lazy"
+                  onerror="this.onerror=null;this.src='https://placehold.co/280x80/0f172a/94a3b8?text=Realtor.com';"
+                />
+              </div>
+
+              <!-- Content -->
+              <div class="p-6 flex-1 flex flex-col">
+                <h3 class="text-2xl font-heading mb-2">Realtor.com</h3>
+                <p class="text-slate-700 dark:text-slate-300 flex-1">
+                  Built scalable automation frameworks and CI pipelines for
+                  enterprise real estate apps, boosting release confidence.
+                </p>
+
+                <!-- Tech stack tags -->
+                <div class="flex flex-wrap gap-2 my-4">
+                  <span
+                    class="bg-gray-700/70 text-xs px-2 py-1 rounded-full text-slate-200"
+                    >Cypress</span
+                  >
+                  <span
+                    class="bg-gray-700/70 text-xs px-2 py-1 rounded-full text-slate-200"
+                    >Playwright</span
+                  >
+                  <span
+                    class="bg-gray-700/70 text-xs px-2 py-1 rounded-full text-slate-200"
+                    >REST API</span
+                  >
+                  <span
+                    class="bg-gray-700/70 text-xs px-2 py-1 rounded-full text-slate-200"
+                    >CI/CD</span
+                  >
+                </div>
+
+                <!-- External link -->
+                <a
+                  href="https://www.realtor.com/"
+                  target="_blank"
+                  rel="noopener"
+                  class="text-primary hover:underline mt-auto"
+                >
+                  Visit site →
+                </a>
+              </div>
+            </article>
           </div>
         </div>
       </section>
