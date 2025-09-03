@@ -611,141 +611,128 @@
       </section>
 
       <!-- Projects -->
-      <section id="projects" class="py-20 px-6" data-aos="fade-up">
-        <div class="max-w-6xl mx-auto">
-          <h2 class="text-4xl font-heading mb-6">Projects</h2>
+      <section id="projects" class="py-20 px-6 bg-black/30" data-aos="fade-up">
+        <div class="max-w-7xl mx-auto">
+          <h2 class="text-4xl font-heading mb-6 text-center">Projects</h2>
+
+          <!-- Scrollable row -->
           <div
-            class="grid gap-6 sm:gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+            id="projectsRail"
+            class="no-scrollbar flex gap-6 overflow-x-auto snap-x snap-mandatory pb-4"
           >
-            <!-- card 1 -->
-            <div
-              class="bg-gray-800 rounded-xl overflow-hidden shadow-lg flex flex-col"
+            <!-- Project 1: Coldwell Banker -->
+            <a
+              href="https://www.coldwellbanker.com/"
+              target="_blank"
+              rel="noopener"
+              class="snap-start shrink-0 w-[300px] md:w-[340px] lg:w-[360px] bg-gray-800 rounded-xl overflow-hidden shadow-lg flex flex-col hover:scale-[1.02] transition-transform"
             >
               <img
                 src="assets/project1.png"
-                alt="Coldwell Banker automation project screenshot"
+                alt="Coldwell Banker project"
                 class="w-full h-40 object-cover"
-                loading="lazy"
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               />
-
-              <div class="p-6 flex-1 flex flex-col">
-                <h3 class="text-2xl font-heading mb-2">Coldwell&nbsp;Banker</h3>
-                <p class="text-slate-400 flex-1">
-                  Designed and implemented Cypress-based UI &amp; API
-                  automation, enhancing test coverage by 80%…
+              <div class="p-4 flex-1 flex flex-col">
+                <h3 class="text-xl font-heading mb-2">Coldwell&nbsp;Banker</h3>
+                <p class="text-slate-400 text-sm flex-1">
+                  Cypress-based UI &amp; API automation, enhancing test coverage
+                  by 80%.
                 </p>
-                <div class="flex flex-wrap gap-2 my-4">
-                  <span
-                    class="bg-gray-700 text-xs px-2 py-1 rounded-full text-slate-300"
-                    >Next.js</span
-                  >
-                  <span
-                    class="bg-gray-700 text-xs px-2 py-1 rounded-full text-slate-300"
-                    >React</span
-                  >
-                  <span
-                    class="bg-gray-700 text-xs px-2 py-1 rounded-full text-slate-300"
-                    >Django</span
-                  >
-                  <span
-                    class="bg-gray-700 text-xs px-2 py-1 rounded-full text-slate-300"
-                    >REST API</span
-                  >
-                  <span
-                    class="bg-gray-700 text-xs px-2 py-1 rounded-full text-slate-300"
-                    >Datadog</span
-                  >
-                </div>
-                <a href="#" class="text-primary hover:underline mt-auto"
-                  >View details →</a
-                >
+                <span class="text-primary mt-3">View Project →</span>
               </div>
-            </div>
-            <!-- card 2 -->
-            <div
-              class="bg-gray-800 rounded-xl overflow-hidden shadow-lg flex flex-col"
+            </a>
+
+            <!-- Project 2: Exclusive Look -->
+            <a
+              href="https://exclusivelook.com/"
+              target="_blank"
+              rel="noopener"
+              class="snap-start shrink-0 w-[300px] md:w-[340px] lg:w-[360px] bg-gray-800 rounded-xl overflow-hidden shadow-lg flex flex-col hover:scale-[1.02] transition-transform"
             >
               <img
                 src="assets/project2.png"
-                alt="Exclusive Look automation project screenshot"
+                alt="Exclusive Look project"
                 class="w-full h-40 object-cover"
-                loading="lazy"
               />
-              <div class="p-6 flex-1 flex flex-col">
-                <h3 class="text-2xl font-heading mb-2">Exclusive&nbsp;Look</h3>
-                <p class="text-slate-400 flex-1">
-                  Automated end-to-end testing with Cypress, reducing testing
-                  time by 30%…
+              <div class="p-4 flex-1 flex flex-col">
+                <h3 class="text-xl font-heading mb-2">Exclusive&nbsp;Look</h3>
+                <p class="text-slate-400 text-sm flex-1">
+                  Automated E2E testing with Cypress, reducing time by 30%.
                 </p>
-                <div class="flex flex-wrap gap-2 my-4">
-                  <span
-                    class="bg-gray-700 text-xs px-2 py-1 rounded-full text-slate-300"
-                    >Angular</span
-                  >
-                  <span
-                    class="bg-gray-700 text-xs px-2 py-1 rounded-full text-slate-300"
-                    >Django</span
-                  >
-                  <span
-                    class="bg-gray-700 text-xs px-2 py-1 rounded-full text-slate-300"
-                    >GraphQL</span
-                  >
-                  <span
-                    class="bg-gray-700 text-xs px-2 py-1 rounded-full text-slate-300"
-                    >Cypress</span
-                  >
-                </div>
-                <a href="#" class="text-primary hover:underline mt-auto"
-                  >View details →</a
-                >
+                <span class="text-primary mt-3">View Project →</span>
               </div>
-            </div>
-            <!-- card 3 -->
-            <div
-              class="bg-gray-800 rounded-xl overflow-hidden shadow-lg flex flex-col"
+            </a>
+
+            <!-- Project 3: Coldwell Banker Homes -->
+            <a
+              href="https://www.coldwellbankerhomes.com/"
+              target="_blank"
+              rel="noopener"
+              class="snap-start shrink-0 w-[300px] md:w-[340px] lg:w-[360px] bg-gray-800 rounded-xl overflow-hidden shadow-lg flex flex-col hover:scale-[1.02] transition-transform"
             >
               <img
                 src="assets/project3.png"
-                alt="Coldwell Banker Homes automation project screenshot"
+                alt="Coldwell Banker Homes project"
                 class="w-full h-40 object-cover"
-                loading="lazy"
               />
-              <div class="p-6 flex-1 flex flex-col">
-                <h3 class="text-2xl font-heading mb-2">
+              <div class="p-4 flex-1 flex flex-col">
+                <h3 class="text-xl font-heading mb-2">
                   Coldwell&nbsp;Banker&nbsp;Homes
                 </h3>
-                <p class="text-slate-400 flex-1">
-                  Implemented Cypress-based UI and API automation to improve
-                  test coverage by 40%…
+                <p class="text-slate-400 text-sm flex-1">
+                  Improved UI &amp; API test coverage by 40% with Cypress.
                 </p>
-                <div class="flex flex-wrap gap-2 my-4">
-                  <span
-                    class="bg-gray-700 text-xs px-2 py-1 rounded-full text-slate-300"
-                    >.NET</span
-                  >
-                  <span
-                    class="bg-gray-700 text-xs px-2 py-1 rounded-full text-slate-300"
-                    >JavaScript</span
-                  >
-                  <span
-                    class="bg-gray-700 text-xs px-2 py-1 rounded-full text-slate-300"
-                    >SQL</span
-                  >
-                  <span
-                    class="bg-gray-700 text-xs px-2 py-1 rounded-full text-slate-300"
-                    >REST API</span
-                  >
-                  <span
-                    class="bg-gray-700 text-xs px-2 py-1 rounded-full text-slate-300"
-                    >Cypress</span
-                  >
-                </div>
-                <a href="#" class="text-primary hover:underline mt-auto"
-                  >View details →</a
-                >
+                <span class="text-primary mt-3">View Project →</span>
               </div>
-            </div>
+            </a>
+
+            <!-- Project 4: Better Homes and Gardens -->
+            <a
+              href="https://www.bhgre.com/"
+              target="_blank"
+              rel="noopener"
+              class="snap-start shrink-0 w-[300px] md:w-[340px] lg:w-[360px] bg-gray-800 rounded-xl overflow-hidden shadow-lg flex flex-col hover:scale-[1.02] transition-transform"
+            >
+              <img
+                src="assets/project2.png"
+                alt="Better Homes and Gardens project"
+                class="w-full h-40 object-cover"
+              />
+              <div class="p-4 flex-1 flex flex-col">
+                <h3 class="text-xl font-heading mb-2">
+                  Better Homes &amp; Gardens
+                </h3>
+                <p class="text-slate-400 text-sm flex-1">
+                  Built scalable automation frameworks for enterprise real
+                  estate apps.
+                </p>
+                <span class="text-primary mt-3">View Project →</span>
+              </div>
+            </a>
+
+            <!-- Project 5: Realtor.com® | Homes for Sale, Apartments & Houses for Rent -->
+            <a
+              href="https://www.realtor.com/"
+              target="_blank"
+              rel="noopener"
+              class="snap-start shrink-0 w-[300px] md:w-[340px] lg:w-[360px] bg-gray-800 rounded-xl overflow-hidden shadow-lg flex flex-col hover:scale-[1.02] transition-transform"
+            >
+              <img
+                src="assets/project1.png"
+                alt="Realtor.com® | Homes for Sale, Apartments & Houses for Rent"
+                class="w-full h-40 object-cover"
+              />
+              <div class="p-4 flex-1 flex flex-col">
+                <h3 class="text-xl font-heading mb-2">
+                  Realtor.com® | Homes for Sale, Apartments & Houses for Rent
+                </h3>
+                <p class="text-slate-400 text-sm flex-1">
+                  Built scalable automation frameworks for enterprise real
+                  estate apps.
+                </p>
+                <span class="text-primary mt-3">View Project →</span>
+              </div>
+            </a>
           </div>
         </div>
       </section>
