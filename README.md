@@ -5,23 +5,7 @@ This site showcases my journey as a **Full Stack SDET, QA Automation Engineer, a
 
 ## 🚀 Live Demo
 
-👉 [View Portfolio](#) (Add your hosted link here)
-
----
-
-## 📸 Screenshots
-
-### 🎯 Hero Section
-
-![Hero Section](assets/hero-screenshot.png)
-
-### 💼 Projects Section
-
-![Projects Section](assets/projects-screenshot.png)
-
-### ❤️ Passions Section
-
-![Passions Section](assets/passions-screenshot.png)
+👉 [View Portfolio](https://letcodewithvineet.github.io/vineet-portfolio/)
 
 ---
 
