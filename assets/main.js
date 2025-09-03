@@ -29,21 +29,30 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Decide initial theme: saved -> system -> current class
-  (() => {
+  const initializeTheme = () => {
     const saved = localStorage.getItem("theme");
     const prefersDark = window.matchMedia(
       "(prefers-color-scheme: dark)"
     ).matches;
-    const initialDark = saved
-      ? saved === "dark"
-      : body.classList.contains("dark") || prefersDark;
+    const initialDark = saved ? saved === "dark" : prefersDark;
     applyTheme(initialDark);
-  })();
+  };
 
-  if (themeBtn) {
+  initializeTheme();
+
+  if (themeBtn && themeIconPath) {
     themeBtn.addEventListener("click", () => {
       applyTheme(!body.classList.contains("dark"));
     });
+
+    // Listen for system theme changes
+    window
+      .matchMedia("(prefers-color-scheme: dark)")
+      .addEventListener("change", (e) => {
+        if (!localStorage.getItem("theme")) {
+          applyTheme(e.matches);
+        }
+      });
   }
 
   /* =========================
