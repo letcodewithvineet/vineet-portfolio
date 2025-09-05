@@ -1,4 +1,7 @@
-// Minimal JS for animations, theme toggle, mobile nav, carousel, and contact form
+// main.js
+// Minimal JS for animations, theme toggle, mobile nav, carousel, contact form,
+// and AI Voice Intro (About-only, with system-voice fallback)
+
 document.addEventListener("DOMContentLoaded", () => {
   /* =========================
      AOS (Animate On Scroll)
@@ -28,7 +31,6 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("theme", isDark ? "dark" : "light");
   }
 
-  // Decide initial theme: saved -> system -> current class
   const initializeTheme = () => {
     const saved = localStorage.getItem("theme");
     const prefersDark = window.matchMedia(
@@ -37,7 +39,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const initialDark = saved ? saved === "dark" : prefersDark;
     applyTheme(initialDark);
   };
-
   initializeTheme();
 
   if (themeBtn && themeIconPath) {
@@ -49,9 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
     window
       .matchMedia("(prefers-color-scheme: dark)")
       .addEventListener("change", (e) => {
-        if (!localStorage.getItem("theme")) {
-          applyTheme(e.matches);
-        }
+        if (!localStorage.getItem("theme")) applyTheme(e.matches);
       });
   }
 
@@ -75,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
   /* =========================
      PHOTO CAROUSEL
      Expects:
-       - Rail:  #photoRail
+       - Rail:   #photoRail
        - Arrows: #railLeft, #railRight
   ========================== */
   const rail = document.getElementById("photoRail");
@@ -102,49 +101,43 @@ document.addEventListener("DOMContentLoaded", () => {
       rail.scrollBy({ left: step(), behavior: "smooth" })
     );
 
-    /* =========================
-   TOUCH SWIPE for carousel (iOS/Android)
-========================== */
-    if (rail) {
-      let startX = 0,
-        lastX = 0,
-        isTouching = false;
+    // TOUCH SWIPE (iOS/Android)
+    let startX = 0,
+      lastX = 0,
+      isTouching = false;
+    rail.addEventListener(
+      "touchstart",
+      (e) => {
+        if (!e.touches || !e.touches.length) return;
+        isTouching = true;
+        startX = lastX = e.touches[0].clientX;
+      },
+      { passive: true }
+    );
+    rail.addEventListener(
+      "touchmove",
+      (e) => {
+        if (!isTouching || !e.touches || !e.touches.length) return;
+        const x = e.touches[0].clientX;
+        const dx = lastX - x;
+        lastX = x;
+        rail.scrollLeft += dx;
+      },
+      { passive: true }
+    );
+    rail.addEventListener("touchend", () => {
+      isTouching = false;
+      const threshold = 40;
+      const delta = startX - lastX;
+      if (Math.abs(delta) > threshold) {
+        rail.scrollBy({
+          left: delta > 0 ? step() : -step(),
+          behavior: "smooth",
+        });
+      }
+    });
 
-      rail.addEventListener(
-        "touchstart",
-        (e) => {
-          if (!e.touches || !e.touches.length) return;
-          isTouching = true;
-          startX = lastX = e.touches[0].clientX;
-        },
-        { passive: true }
-      );
-
-      rail.addEventListener(
-        "touchmove",
-        (e) => {
-          if (!isTouching || !e.touches || !e.touches.length) return;
-          const x = e.touches[0].clientX;
-          const dx = lastX - x;
-          lastX = x;
-          rail.scrollLeft += dx; // smooth follow-the-finger
-        },
-        { passive: true }
-      );
-
-      rail.addEventListener("touchend", () => {
-        isTouching = false;
-        // snap a bit by nudging ~half a card if swipe was big
-        const threshold = 40;
-        const delta = startX - lastX;
-        if (Math.abs(delta) > threshold) {
-          const step = Math.min(rail.clientWidth * 0.9, 600);
-          rail.scrollBy({ left: delta > 0 ? step : -step, behavior: "smooth" });
-        }
-      });
-    }
-
-    // allow vertical mouse wheel to scroll horizontally
+    // Mouse wheel (vertical -> horizontal)
     rail.addEventListener(
       "wheel",
       (e) => {
@@ -156,7 +149,7 @@ document.addEventListener("DOMContentLoaded", () => {
       { passive: false }
     );
 
-    // keyboard support when rail is focused
+    // Keyboard
     rail.setAttribute("tabindex", "0");
     rail.addEventListener("keydown", (e) => {
       if (e.key === "ArrowRight")
@@ -177,7 +170,7 @@ document.addEventListener("DOMContentLoaded", () => {
        - Status element: #form-status
        - Endpoint:
            * body[data-form-endpoint]  OR
-           * hard-coded fallback below
+           * fallback below
   ========================== */
   const form = document.getElementById("contactForm");
   const statusEl = document.getElementById("form-status");
@@ -209,5 +202,153 @@ document.addEventListener("DOMContentLoaded", () => {
         statusEl.textContent = "Network error. Please try again.";
       }
     });
+  }
+
+  /* =========================
+   AI Voice Intro — About-only + system-voice fallback
+========================= */
+  let hasSpeech =
+    "speechSynthesis" in window && "SpeechSynthesisUtterance" in window;
+  let currentUtterance = null;
+  let voices = [];
+
+  // Elements (support both old + new IDs)
+  const fabBtn = document.getElementById("aiIntroFab");
+  const panelEl = document.getElementById("aiIntroPanel");
+  const panelClose = document.getElementById("aiIntroClose");
+  const textArea = document.getElementById("aiIntroText");
+
+  const voiceSel =
+    document.getElementById("aiVoiceSelect") ||
+    document.getElementById("aiIntroVoice");
+  const rateEl =
+    document.getElementById("aiVoiceRate") ||
+    document.getElementById("aiIntroRate");
+  const pitchEl =
+    document.getElementById("aiVoicePitch") ||
+    document.getElementById("aiIntroPitch");
+
+  const playBtn = document.getElementById("aiIntroPlay");
+  const stopBtn = document.getElementById("aiIntroStop");
+  // (Optional future) const videoBtn = document.getElementById("aiIntroVideo");
+
+  // Read only the About section
+  function getAboutText() {
+    const about = document.getElementById("about");
+    if (!about) return "";
+    const heading = about.querySelector("h2")?.innerText?.trim() || "";
+    const paras = [...about.querySelectorAll("p")]
+      .map((p) => p.innerText.trim())
+      .filter(Boolean)
+      .join(" ");
+    return [heading, paras].filter(Boolean).join(". ");
+  }
+
+  // Voice loading (handles Chrome/Safari quirks)
+  function populateVoices() {
+    voices = window.speechSynthesis.getVoices();
+    if (!voices.length) {
+      setTimeout(populateVoices, 250);
+      return;
+    }
+    if (voiceSel) {
+      const savedName = localStorage.getItem("aiIntroVoiceName");
+      voiceSel.innerHTML = "";
+      voices.forEach((v) => {
+        const opt = document.createElement("option");
+        opt.value = v.name;
+        opt.textContent = `${v.name} (${v.lang})`;
+        voiceSel.appendChild(opt);
+      });
+      const preferred =
+        (savedName && voices.find((v) => v.name === savedName)?.name) ||
+        voices.find((v) => /en/i.test(v.lang))?.name ||
+        voices[0]?.name ||
+        "";
+      if (preferred) voiceSel.value = preferred;
+    }
+  }
+  if (hasSpeech) {
+    populateVoices();
+    window.speechSynthesis.onvoiceschanged = () => populateVoices();
+  }
+
+  function stopSpeaking() {
+    if (!hasSpeech) return;
+    window.speechSynthesis.cancel();
+    currentUtterance = null;
+  }
+
+  function speak(text) {
+    if (!hasSpeech || !text) return;
+
+    stopSpeaking();
+    const u = new SpeechSynthesisUtterance(text);
+
+    // Choose voice: selected -> first English -> first available -> system default
+    let chosen = null;
+    if (voiceSel && voiceSel.value)
+      chosen = voices.find((v) => v.name === voiceSel.value) || null;
+    if (!chosen) chosen = voices.find((v) => /en/i.test(v.lang)) || null;
+    if (!chosen) chosen = voices[0] || null;
+    if (chosen) u.voice = chosen;
+
+    u.rate = (rateEl && parseFloat(rateEl.value)) || 1;
+    u.pitch = (pitchEl && parseFloat(pitchEl.value)) || 1;
+    u.volume = 1;
+    u.lang = chosen?.lang || "en-US";
+
+    if (voiceSel && voiceSel.value) {
+      localStorage.setItem("aiIntroVoiceName", voiceSel.value);
+    }
+
+    if (window.speechSynthesis.paused) window.speechSynthesis.resume();
+    window.speechSynthesis.speak(u);
+    currentUtterance = u;
+  }
+
+  // Prefill panel textarea with About text
+  function prefillPanel() {
+    const aboutTxt = getAboutText();
+    if (textArea && aboutTxt) textArea.value = aboutTxt;
+  }
+
+  /* --- UI wiring --- */
+  // FAB: open panel + quick toggle speak/stop
+  if (fabBtn && hasSpeech) {
+    fabBtn.addEventListener("click", () => {
+      // Quick toggle speak/stop if already speaking
+      if (window.speechSynthesis.speaking) {
+        stopSpeaking();
+        return;
+      }
+      // Warm-up voices then open panel & prefill
+      if (!voices.length) populateVoices();
+      prefillPanel();
+      if (panelEl) panelEl.classList.remove("hidden");
+    });
+  }
+
+  // Close panel
+  if (panelClose && panelEl) {
+    panelClose.addEventListener("click", () => {
+      panelEl.classList.add("hidden");
+    });
+  }
+
+  // Play/Stop in the panel
+  if (playBtn && hasSpeech) {
+    playBtn.addEventListener("click", () => {
+      const txt = (textArea && textArea.value.trim()) || getAboutText().trim();
+      if (!voices.length) {
+        populateVoices();
+        setTimeout(() => speak(txt), 150);
+      } else {
+        speak(txt);
+      }
+    });
+  }
+  if (stopBtn && hasSpeech) {
+    stopBtn.addEventListener("click", () => stopSpeaking());
   }
 });

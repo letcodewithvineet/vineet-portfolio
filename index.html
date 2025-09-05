@@ -1638,6 +1638,147 @@
           </div>
         </div>
       </section>
+      <!-- Floating Voice Intro button (bottom-right) -->
+      <button
+        id="aiIntroFab"
+        class="fixed bottom-6 right-6 z-50 h-14 w-14 rounded-full bg-primary/80 hover:bg-primary text-white shadow-lg grid place-items-center focus:outline-none focus:ring-2 focus:ring-primary/40"
+        aria-label="Play AI voice intro"
+      >
+        <!-- mic icon -->
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-7 w-7"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+        >
+          <path d="M12 14a3 3 0 003-3V6a3 3 0 10-6 0v5a3 3 0 003 3z"></path>
+          <path
+            d="M19 11a1 1 0 10-2 0 5 5 0 11-10 0 1 1 0 10-2 0 7 7 0 006 6.92V21a1 1 0 102 0v-3.08A7 7 0 0019 11z"
+          ></path>
+        </svg>
+      </button>
+
+      <!-- Panel -->
+      <div
+        id="aiIntroPanel"
+        class="fixed bottom-24 right-5 z-50 w-[22rem] max-w-[92vw] rounded-2xl bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border border-slate-200 dark:border-slate-800 shadow-2xl hidden"
+        role="dialog"
+        aria-labelledby="aiIntroTitle"
+      >
+        <div class="p-4">
+          <div class="flex items-center justify-between mb-2">
+            <h3 id="aiIntroTitle" class="text-lg font-semibold">
+              AI Voice Intro
+            </h3>
+            <button
+              id="aiIntroClose"
+              class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800"
+              aria-label="Close"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
+
+          <!-- Script text (pre-filled from your page on open) -->
+          <label class="block text-xs mb-1 text-slate-500 dark:text-slate-400"
+            >Intro script</label
+          >
+          <textarea
+            id="aiIntroText"
+            rows="4"
+            class="w-full rounded-lg border border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/70 p-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+            placeholder="Hi, I'm Vineet…"
+          ></textarea>
+
+          <div class="grid grid-cols-2 gap-3 mt-3">
+            <div>
+              <label
+                class="block text-xs mb-1 text-slate-500 dark:text-slate-400"
+                >Voice</label
+              >
+              <select
+                id="aiIntroVoice"
+                class="w-full rounded-lg border border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/70 p-2 text-sm"
+              ></select>
+            </div>
+            <div>
+              <label
+                class="block text-xs mb-1 text-slate-500 dark:text-slate-400"
+                >Rate</label
+              >
+              <input
+                id="aiIntroRate"
+                type="range"
+                min="0.5"
+                max="1.5"
+                step="0.05"
+                value="1"
+                class="w-full accent-primary"
+              />
+            </div>
+            <div>
+              <label
+                class="block text-xs mb-1 text-slate-500 dark:text-slate-400"
+                >Pitch</label
+              >
+              <input
+                id="aiIntroPitch"
+                type="range"
+                min="0"
+                max="2"
+                step="0.1"
+                value="1"
+                class="w-full accent-primary"
+              />
+            </div>
+            <div class="flex items-end">
+              <label class="text-xs text-slate-500 dark:text-slate-400 mb-1"
+                >&nbsp;</label
+              >
+              <div class="text-xs text-slate-500 dark:text-slate-400">
+                Tip: iOS needs user interaction first.
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4 flex items-center gap-2">
+            <button
+              id="aiIntroPlay"
+              class="px-3 py-2 rounded-md bg-primary text-white hover:bg-primary/90"
+            >
+              Play
+            </button>
+            <button
+              id="aiIntroStop"
+              class="px-3 py-2 rounded-md bg-slate-200 dark:bg-slate-800 dark:text-slate-200 hover:bg-slate-300 dark:hover:bg-slate-700"
+            >
+              Stop
+            </button>
+
+            <!-- Placeholder for future avatar/video integration -->
+            <button
+              id="aiIntroVideo"
+              class="ml-auto px-3 py-2 rounded-md bg-emerald-600 text-white hover:bg-emerald-700"
+              title="(Coming soon) Avatar video"
+            >
+              Avatar (β)
+            </button>
+          </div>
+        </div>
+      </div>
     </main>
 
     <footer class="py-6 text-center text-slate-400">
