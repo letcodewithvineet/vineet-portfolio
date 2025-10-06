@@ -204,6 +204,67 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // === Resume email (Apps Script) ===
+  // Your deployed Web App "exec" URL:
+  const SCRIPT_URL =
+    "https://script.google.com/macros/s/AKfycbw8yujOPYFkuy5B1eW9hNNE77IXSHg1U4yUrpRP3-1TtfnvVRc2swVuQB6FX9QdPxqLsA/exec";
+
+  // IMPORTANT: use your own long random string here AND in Apps Script
+  const SECRET = "1f6mZI-rCYKjtji2_bcfzgXWydgiggTtauZZdJxktxCZZOjQ7sCzYfoU7";
+
+  const resumeForm = document.getElementById("resumeForm");
+  const resumeStatusEl = document.getElementById("resumeStatus");
+  const resumeEmailInput = document.getElementById("resumeEmail");
+
+  if (resumeForm && resumeStatusEl && resumeEmailInput) {
+    resumeForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const email = (resumeEmailInput.value || "").trim();
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        resumeStatusEl.textContent = "Please enter a valid email address.";
+        return;
+      }
+
+      const submitBtn = resumeForm.querySelector('button[type="submit"]');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.classList.add("opacity-70", "cursor-not-allowed");
+      }
+      resumeStatusEl.textContent = "Sending…";
+
+      try {
+        // text/plain => no CORS preflight
+        const res = await fetch(SCRIPT_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({ email, secret: SECRET }),
+        });
+
+        const data = await res.json().catch(() => ({}));
+        if (data && data.ok) {
+          resumeStatusEl.textContent =
+            "Thanks! Please check your inbox for my resume.";
+          resumeForm.reset();
+        } else {
+          resumeStatusEl.textContent =
+            data && data.error
+              ? `Error: ${data.error}`
+              : "Oops, something went wrong.";
+          console.error("Apps Script error:", data);
+        }
+      } catch (err) {
+        console.error(err);
+        resumeStatusEl.textContent = "Network error. Please try again.";
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.classList.remove("opacity-70", "cursor-not-allowed");
+        }
+      }
+    });
+  }
+
   /* =========================
    AI Voice Intro — About-only + system-voice fallback
 ========================= */
