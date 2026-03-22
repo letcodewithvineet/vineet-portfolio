@@ -168,16 +168,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
   (async () => {
     if (!visitBadge || !visitCount) return;
+
+    const namespace = "letcodewithvineet-portfolio";
+    const key = "home";
+    const sessionKey = `visit-counted:${namespace}:${key}`;
+    const endpoint = sessionStorage.getItem(sessionKey)
+      ? `https://api.countapi.xyz/get/${namespace}/${key}`
+      : `https://api.countapi.xyz/hit/${namespace}/${key}`;
+
     try {
-      const response = await fetchWithTimeout("https://hits.sh/letcodewithvineet.github.io/vineet-mywebsite.json?simple=1", 3500);
+      const response = await fetchWithTimeout(endpoint, 3500);
       if (!response.ok) throw new Error("bad status");
-      const raw = await response.text();
-      const count = Number.parseInt(raw, 10);
+      const data = await response.json().catch(() => ({}));
+      const count = Number.parseInt(data?.value, 10);
       if (!Number.isFinite(count)) throw new Error("bad payload");
+      sessionStorage.setItem(sessionKey, "1");
       visitBadge.classList.remove("hidden");
       animateCount(count);
     } catch {
-      visitBadge.classList.add("hidden");
+      visitCount.textContent = "Live";
+      visitBadge.classList.remove("hidden");
     }
   })();
 });
